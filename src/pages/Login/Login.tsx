@@ -1,6 +1,8 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState, FormEvent, ChangeEvent } from 'react';
-import api from '../../services/api'
+import { api } from '../../services/api'
+import { setToken } from '../../utils/autentication';
+import useUser from '../../hooks/useUser';
 
 export default function Login() {
 
@@ -10,24 +12,8 @@ export default function Login() {
   const [passwordError, setPasswordError] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>('');
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    setErrorMsg('')
-    if (!email) setEmailError(true);
-    if (!password) setPasswordError(true);
-    if (!email || !password) return;
-
-    const credentials = { email, senha: password };
-
-    try {
-      const request = await api.post('/login', credentials);
-      console.log(request)
-
-    } catch (error) {
-      setErrorMsg(error.response.data);
-    }
-
-  }
+  const { setUserData } = useUser();
+  const redirect = useNavigate();
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name;
@@ -39,6 +25,27 @@ export default function Login() {
     } else if (name === 'password') {
       setPasswordError(false);
       setPassword(value)
+    }
+  }
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    setErrorMsg('')
+    if (!email) setEmailError(true);
+    if (!password) setPasswordError(true);
+    if (!email || !password) return;
+
+    const credentials = { email, senha: password };
+
+    try {
+      const { data } = await api.post('/login', credentials);
+      const { token } = data;
+      const { usuario } = data;
+      setToken(token);
+      setUserData(usuario);
+      return redirect("/home");
+    } catch (error) {
+      setErrorMsg(error.response.data);
     }
   }
 
@@ -67,6 +74,6 @@ export default function Login() {
 
         <p>Não tem cadastro? <Link to={'/signin'}>Clique aqui</Link></p>
       </div>
-    </main>
+    </main >
   )
 }
