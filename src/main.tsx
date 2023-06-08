@@ -4,13 +4,14 @@ import './index.css'
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
 import Login from './pages/Login/Login.tsx'
 import Home from './pages/Home/Home.tsx'
-import isAuth from './utils/autentication.ts'
+import { isAuth } from './utils/autentication.ts'
 import Signin from './pages/Signin/Signin.tsx'
+import { UserProvider } from './contexts/userContext.tsx'
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Login />,
+    element: <Login />
   },
   {
     path: '/home',
@@ -26,6 +27,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <UserProvider>
+      <RouterProvider router={router} />
+    </UserProvider>
   </React.StrictMode>,
 )
