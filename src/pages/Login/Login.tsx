@@ -10,7 +10,7 @@ export default function Login() {
   const [passwordError, setPasswordError] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>('');
 
-  const { setUser, setToken } = useUser();
+  const { setUser, setToken, user } = useUser();
 
   const redirect = useNavigate();
 
@@ -19,10 +19,10 @@ export default function Login() {
     const value = e.target.value;
 
     if (name === 'email') {
-      setEmailError(false);
+      if (emailError) setEmailError(false);
       setEmail(value)
     } else if (name === 'password') {
-      setPasswordError(false);
+      if (passwordError) setPasswordError(false);
       setPassword(value)
     }
   }
@@ -44,7 +44,7 @@ export default function Login() {
       setToken(token);
       return redirect("/home");
     } catch (error) {
-      console.log(error);
+      setErrorMsg(error.response.data);
     }
   }
 
@@ -71,7 +71,7 @@ export default function Login() {
           <button>Login</button>
         </form>
 
-        <p>Não tem cadastro? <Link to={'/signin'}>Clique aqui</Link></p>
+        <p>Não tem cadastro? <Link to={'/home'}>Clique aqui</Link></p>
       </div>
     </main >
   )

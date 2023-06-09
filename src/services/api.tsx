@@ -6,9 +6,9 @@ export const api = axios.create({
     headers: { 'Content-Type': 'application/json' }
 });
 
-export async function apiAuthorizationHeaders() {
+export function apiAuthorizationHeaders(token: string) {
     const headers: AxiosRequestConfig = {
-        headers: { 'Authorization': `Bearer ${'token'}` }
+        headers: { 'Authorization': `Bearer ${token}` }
     }
     return headers
 }
