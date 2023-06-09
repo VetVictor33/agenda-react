@@ -1,18 +1,17 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, FormEvent, ChangeEvent } from 'react';
-import { api } from '../../services/api'
-import { setToken } from '../../utils/autentication';
+import { api } from '../../services/api';
 import useUser from '../../hooks/useUser';
 
 export default function Login() {
-
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [emailError, setEmailError] = useState<boolean>(false);
   const [passwordError, setPasswordError] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>('');
 
-  const { setUserData } = useUser();
+  const { setUser, setToken } = useUser();
+
   const redirect = useNavigate();
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -41,11 +40,11 @@ export default function Login() {
       const { data } = await api.post('/login', credentials);
       const { token } = data;
       const { usuario } = data;
+      setUser(usuario);
       setToken(token);
-      setUserData(usuario);
       return redirect("/home");
     } catch (error) {
-      setErrorMsg(error.response.data);
+      console.log(error);
     }
   }
 

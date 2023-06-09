@@ -1,34 +1,38 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import Root from './Root.tsx'
 import './index.css'
-import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
-import Login from './pages/Login/Login.tsx'
 import Home from './pages/Home/Home.tsx'
-import { isAuth } from './utils/autentication.ts'
+import Login from './pages/Login/Login.tsx'
 import Signin from './pages/Signin/Signin.tsx'
-import { UserProvider } from './contexts/userContext.tsx'
+import PrivateRoute from './components/PrivateRoute.tsx'
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <Login />
+    element: <Root />,
+    errorElement: <h1>Houver um erro</h1>,
+    children: [
+      {
+        path: '/',
+        element: <Login />
+      },
+      {
+        path: '/home',
+        element: <PrivateRoute redirectTo={'/'}><Home /></PrivateRoute>
+      },
+      {
+        path: '/signin',
+        element: <Signin />
+      }
+    ]
   },
-  {
-    path: '/home',
-    element: isAuth() ? <Home /> : <Navigate to={'/'} />
-  },
-  {
-    path: '/signin',
-    element: isAuth() ? <Navigate to={'/home'} /> : <Signin />
-  }
 ])
 
 
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <UserProvider>
-      <RouterProvider router={router} />
-    </UserProvider>
+    <RouterProvider router={router} />
   </React.StrictMode>,
 )
