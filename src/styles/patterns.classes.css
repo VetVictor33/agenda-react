@@ -1,0 +1,134 @@
+.main-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 4%;
+    background-color: rgb(21, 13, 83);
+    width: 100%;
+    height: 10vh;
+}
+
+.form-div {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+
+    margin: auto;
+    padding: 35px 25px;
+    border-radius: 8px;
+
+    background-color: rgba(240, 248, 255, 0.824);
+    color: #090909;
+}
+
+.log-sign-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.input-div {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+input {
+    height: 38px;
+}
+
+.error-msg {
+    position: absolute;
+    top: 15px;
+    color: rgb(242, 29, 29);
+    display: inline;
+}
+
+.main-msg {
+    padding: 5px 0px;
+    margin: 0px;
+    top: 5px
+}
+
+.success-msg {
+    position: absolute;
+    color: green;
+}
+
+dialog {
+    z-index: 1;
+}
+
+.edit-dialog::backdrop {
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(1px);
+}
+
+.edit-dialog[open] {
+    border: unset;
+    border-radius: 8px;
+    margin: auto;
+}
+
+.delete-dialog[open] {
+    border: none;
+    font-size: small;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #FFF;
+    color: #090909;
+
+    padding: 5px;
+    border-radius: 8px;
+}
+
+.delete-dialog[open] button {
+    padding: 5px;
+    width: fit-content;
+}
+
+.bt-div {
+    display: flex;
+    gap: 5px;
+}
+
+.add-bt {
+    background-color: rgb(45, 45, 248);
+}
+
+.edit-bt,
+.confirm-bt {
+    background-color: rgb(19, 130, 19);
+}
+
+.close-bt {
+    background-color: rgb(255, 36, 36);
+}
+
+.x-close-bt {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+
+    height: 30px;
+    width: 30px;
+    text-align: center;
+    font-weight: bolder;
+
+    background-color: #090909;
+    color: #FFFF;
+    padding: 2px;
+    border-radius: 50%;
+
+    cursor: pointer;
+}
+
+.form-msg {
+    padding: 10px 0;
+}

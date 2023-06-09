@@ -1,0 +1,7 @@
+.ContactCard {
+    position: relative;
+    background-color: rgb(232, 244, 255);
+    color: #696969;
+    padding: 8px;
+    border-radius: 8px;
+}

@@ -17,6 +17,7 @@ export default function Login() {
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name;
     const value = e.target.value;
+    if (errorMsg) setErrorMsg(false);
 
     if (name === 'email') {
       if (emailError) setEmailError(false);
@@ -49,29 +50,28 @@ export default function Login() {
   }
 
   return (
-    <main>
-      <div>
-        <form onSubmit={handleSubmit}>
-          <div>
+    <main className='Login'>
+      <div className='form-div'>
+        <form onSubmit={handleSubmit} className='log-sign-form'>
+          <div className="input-div">
             <label htmlFor="email">Email</label>
-            {emailError && <p>Email é obrigatório</p>}
+            {emailError && <p className='error-msg'>Email é obrigatório</p>}
             <input type="email" placeholder="email" name="email"
               value={email}
               onChange={handleInputChange}
             />
           </div>
-          <div>
+          <div className="input-div">
             <label htmlFor="password">Senha</label>
-            {passwordError && <p>Senha é obrigatória</p>}
+            {passwordError && <p className='error-msg'>Senha é obrigatória</p>}
             <input type="password" placeholder="password" name="password"
               value={password}
               onChange={handleInputChange} />
           </div>
-          {!!errorMsg && <p>{errorMsg}</p>}
+          {!!errorMsg && <p className='error-msg main-error-msg'>{errorMsg}</p>}
           <button>Login</button>
         </form>
-
-        <p>Não tem cadastro? <Link to={'/home'}>Clique aqui</Link></p>
+        <p className='form-msg'>Não tem cadastro? <Link to={'/signin'}>Clique aqui</Link></p>
       </div>
     </main >
   )

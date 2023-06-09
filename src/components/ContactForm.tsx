@@ -1,10 +1,10 @@
-import { ChangeEvent, useState, FormEvent } from "react"
+import { ChangeEvent, useState, FormEvent, useEffect } from "react"
 import { api, apiAuthorizationHeaders } from "../services/api";
 import useUser from "../hooks/useUser";
 import { IContact } from "../interfaces";
 
 
-export default function ContactForm({ data, closeModal }: { data: IContact, closeModal: VoidFunction }) {
+export default function ContactForm({ data, closeModal }: { data: IContact | null, closeModal: VoidFunction }) {
   const edititing = data ? true : false;
   const [name, setName] = useState<string>(data?.nome || '');
   const [telephone, setTelephone] = useState<string>(data?.telefone || '');
@@ -13,6 +13,8 @@ export default function ContactForm({ data, closeModal }: { data: IContact, clos
   const [nameError, setNameError] = useState<boolean>(false);
   const [telephoneError, setTelephoneError] = useState<boolean>(false);
   const [emailError, setEmailError] = useState<boolean>(false);
+
+  const [error, setError] = useState<boolean>(false);
   const [message, setMessage] = useState<string>('');
 
   const { token, contacts, setContacts } = useUser();
@@ -20,6 +22,9 @@ export default function ContactForm({ data, closeModal }: { data: IContact, clos
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name;
     const value = e.target.value;
+
+    if (message) setMessage('');
+    if (error) setError(false);
 
     switch (name) {
       case 'name':
@@ -50,7 +55,7 @@ export default function ContactForm({ data, closeModal }: { data: IContact, clos
 
     try {
       if (edititing) {
-        const response = await api.put(`/contatos/${data.id}`, credentials, headers);
+        await api.put(`/contatos/${data?.id}`, credentials, headers);
 
         const filteredContacts = contacts.filter((c: IContact) => c.id != data.id);
         setContacts([...filteredContacts, { ...data, ...credentials }]);
@@ -62,44 +67,56 @@ export default function ContactForm({ data, closeModal }: { data: IContact, clos
         setMessage('Contato cadastrado com sucesso!');
         const localContacts = [...contacts, ...data];
         setContacts(localContacts);
-
+        setName('');
+        setTelephone('');
+        setEmail('');
       }
     } catch (error) {
       console.log(error)
       setMessage(error.response.data)
+      setError(true);
     }
   }
 
+  const handleModalClose = () => {
+    if (message) setMessage('');
+    if (error) setError(false);
+    closeModal()
+  }
+
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <div>
+    <div className="form-div">
+      <form onSubmit={handleSubmit} className="log-sign-form">
+        <p className="x-close-bt" onClick={handleModalClose}>X</p>
+        <div className="input-div">
           <label htmlFor="name">Nome</label>
-          {nameError && <p>Nome é obrigatório</p>}
+          {nameError && <p className="error-msg">Nome é obrigatório</p>}
           <input type="name" placeholder="Nome" name="name"
             value={name}
             onChange={handleInputChange}
           />
         </div>
-        <div>
+        <div className="input-div">
           <label htmlFor="telephone">Telefone</label>
-          {telephoneError && <p>Telefone é obrigatória</p>}
+          {telephoneError && <p className="error-msg">Telefone é obrigatória</p>}
           <input type="tel-----" placeholder="Telefone" name="telephone"
             value={telephone}
             onChange={handleInputChange} />
         </div>
-        <div>
+        <div className="input-div">
           <label htmlFor="email">Email</label>
-          {emailError && <p>Email é obrigatório</p>}
+          {emailError && <p className="error-msg">Email é obrigatório</p>}
           <input type="email" placeholder="email" name="email"
             value={email}
             onChange={handleInputChange}
           />
         </div>
-        {!!message && <p>{message}</p>}
-        <button>{edititing ? 'Editar' : 'Cadastrar'}</button>
+        {!!message && <p className={`${error ? 'error-msgn' : 'success-msg'} main-msg`}>{message}</p>}
+        <button className={`${edititing ? 'edit-bt' : 'add-bt'}`}>
+          {edititing ? 'Editar' : 'Cadastrar'}
+        </button>
+        <button className="close-bt" type="button" onClick={handleModalClose}>Fechar</button>
       </form >
-      {edititing && <button onClick={() => closeModal()}>Fechar</button>}
-    </>
+    </div>
   )
 }

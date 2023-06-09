@@ -1,0 +1,24 @@
+.Login,
+.Signin {
+    width: 100vw;
+    display: flex;
+    height: 100vh;
+}
+
+.Home {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+
+    width: 100vw;
+}
+
+.Home>.contacts-display {
+    width: 100%;
+    padding: 15px 30px;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}

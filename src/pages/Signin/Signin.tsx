@@ -1,5 +1,5 @@
 import { ChangeEvent, useState, FormEvent } from "react"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { api } from "../../services/api";
 
 export default function Signin() {
@@ -10,11 +10,18 @@ export default function Signin() {
   const [nameError, setNameError] = useState<boolean>(false);
   const [emailError, setEmailError] = useState<boolean>(false);
   const [passwordError, setPasswordError] = useState<boolean>(false);
+
+  const [error, setError] = useState<boolean>(false);
   const [message, setMessage] = useState<string>('');
+
+  const redirect = useNavigate();
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name;
     const value = e.target.value;
+
+    if (error) setError(false);
+    if (message) setMessage('');
 
     switch (name) {
       case 'name':
@@ -45,43 +52,44 @@ export default function Signin() {
     try {
       await api.post('/usuarios', credentials);
       setMessage('Cadastro realizado com sucesso!');
+      setTimeout(() => redirect('/'), 2000)
     } catch (error) {
-      setMessage(error.response.data)
+      setMessage(error.response.data);
+      setError(true);
     }
   }
 
   return (
-    <main>
-      <div>
-        <form onSubmit={handleSubmit}>
-          <div>
+    <main className="Signin">
+      <div className="form-div">
+        <form onSubmit={handleSubmit} className="log-sign-form">
+          <div className="input-div">
             <label htmlFor="name">Nome</label>
-            {nameError && <p>Nome é obrigatório</p>}
+            {nameError && <p className="error-msg">Nome é obrigatório</p>}
             <input type="name" placeholder="Nome" name="name"
               value={name}
               onChange={handleInputChange}
             />
           </div>
-          <div>
+          <div className="input-div">
             <label htmlFor="email">Email</label>
-            {emailError && <p>Email é obrigatório</p>}
+            {emailError && <p className="error-msg">Email é obrigatório</p>}
             <input type="email" placeholder="email" name="email"
               value={email}
               onChange={handleInputChange}
             />
           </div>
-          <div>
+          <div className="input-div">
             <label htmlFor="password">Senha</label>
-            {passwordError && <p>Senha é obrigatória</p>}
+            {passwordError && <p className="error-msg">Senha é obrigatória</p>}
             <input type="password" placeholder="senha" name="password"
               value={password}
               onChange={handleInputChange} />
           </div>
-          {!!message && <p>{message}</p>}
+          {!!message && <p className={`${error ? 'error-msg' : 'success-msg'} main-msg`}>{message}</p>}
           <button>Cadastrar</button>
         </form>
-
-        <p>Já tem cadastro? <Link to={'/'}>Clique aqui</Link></p>
+        <p className='form-msg'>Já tem cadastro? <Link to={'/'}>Clique aqui</Link></p>
       </div>
     </main>
   )
