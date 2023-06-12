@@ -13,12 +13,19 @@
     width: 100vw;
 }
 
+.Home .add-contact-bt {
+    height: 48px;
+    font-size: 1.3rem;
+    background-color: rgb(17, 17, 103);
+    border: 1px solid #FFF;
+}
+
 .Home>.contacts-display {
     width: 100%;
-    padding: 15px 30px;
+    padding: 1.5rem 3.0rem;
 
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 2rem;
     justify-content: center;
 }

@@ -43,15 +43,15 @@ export default function Home() {
     return (
         <>
             <header className='main-header'>
-                <div>Adjgenda</div>
+                <h1>Adjgenda</h1>
                 <nav>
-                    <p>Olá, {user?.nome || 'anônimo'}</p>
-                    <p onClick={handleLogout}> Logout</p>
+                    <h3>Olá, {user?.nome || 'anônimo'}</h3>
+                    <h3 onClick={handleLogout}> Logout</h3>
                 </nav>
             </header>
             <main className='Home'>
                 <div>
-                    <button onClick={handleOpenModal}>Adicionar contato</button>
+                    <button className='add-contact-bt' onClick={handleOpenModal}>Adicionar contato</button>
                 </div>
                 <div className="contacts-display">
                     {contacts?.length > 0 && contacts.map((contact: IContact) => (

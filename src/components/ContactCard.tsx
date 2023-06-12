@@ -34,7 +34,7 @@ export default function ContactCard({ contact }: { contact: IContact }) {
     }
 
     const handleOpenDeleteModal = () => {
-        deleteDialog.current.show();
+        deleteDialog.current.showModal();
     }
     const handleCloseDeleteModal = () => {
         deleteDialog.current.close();
@@ -48,17 +48,17 @@ export default function ContactCard({ contact }: { contact: IContact }) {
             <div className="bt-div">
                 <button className="edit-bt"
                     onClick={handleOpenEditModal}>
-                    Editar contato</button>
+                    Editar</button>
                 <button className="close-bt"
                     onClick={handleOpenDeleteModal}>
-                    Apagar esse contato</button>
+                    Apagar</button>
             </div>
             {errorMessage && <p>{errorMessage}</p>}
             <dialog ref={editDialog} className="edit-dialog">
                 <ContactForm data={contact} closeModal={handleCloseEditModal} />
             </dialog>
             <dialog ref={deleteDialog} className="delete-dialog">
-                <p>Deseja apagar esse contato?</p>
+                <p>Remover {nome}?</p>
                 <div className="bt-div">
                     <button className="close-bt"
                         onClick={handleCloseDeleteModal}>

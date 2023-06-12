@@ -1,7 +1,17 @@
 .ContactCard {
     position: relative;
+    width: 280px;
+
     background-color: rgb(232, 244, 255);
     color: #696969;
-    padding: 8px;
+    padding: 0.8rem;
     border-radius: 8px;
+
+    font-size: 2rem;
+}
+
+.ContactCard .bt-div {
+    display: flex;
+    justify-content: center;
+    font-size: 1.8rem;
 }

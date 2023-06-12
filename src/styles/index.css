@@ -5,6 +5,7 @@
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
+  font-size: 62.5%;
   font-weight: 400;
 
   color-scheme: light dark;
@@ -38,13 +39,17 @@ body {
   margin: 0;
   display: flex;
   place-items: initial;
-  min-width: 320px;
+  min-width: 393px;
   min-height: 100vh;
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+}
+
+h3 {
+  font-size: 1.6rem;
 }
 
 button {
@@ -81,4 +86,13 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+@media (min-width: 850px) {
+  .main-header {
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+
 }

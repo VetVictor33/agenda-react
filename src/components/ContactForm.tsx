@@ -1,7 +1,7 @@
-import { ChangeEvent, useState, FormEvent, useEffect } from "react"
-import { api, apiAuthorizationHeaders } from "../services/api";
+import { ChangeEvent, FormEvent, useState } from "react";
 import useUser from "../hooks/useUser";
 import { IContact } from "../interfaces";
+import { api, apiAuthorizationHeaders } from "../services/api";
 
 
 export default function ContactForm({ data, closeModal }: { data: IContact | null, closeModal: VoidFunction }) {
@@ -61,6 +61,7 @@ export default function ContactForm({ data, closeModal }: { data: IContact | nul
         setContacts([...filteredContacts, { ...data, ...credentials }]);
 
         setMessage('Contato atualizado com sucesso!');
+        handleModalClose();
       } else {
         const { data } = await api.post('/contatos', credentials, headers);
 
