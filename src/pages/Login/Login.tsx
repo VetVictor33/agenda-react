@@ -8,9 +8,9 @@ export default function Login() {
   const [password, setPassword] = useState<string>('');
   const [emailError, setEmailError] = useState<boolean>(false);
   const [passwordError, setPasswordError] = useState<boolean>(false);
-  const [errorMsg, setErrorMsg] = useState<string>('');
+  const [errorMsg, setErrorMsg] = useState<string | boolean>('');
 
-  const { setUser, setToken, user } = useUser();
+  const { setUser, setToken } = useUser();
 
   const redirect = useNavigate();
 

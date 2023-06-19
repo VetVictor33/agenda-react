@@ -4,7 +4,7 @@ import { IContact } from "../interfaces";
 import { api, apiAuthorizationHeaders } from "../services/api";
 
 
-export default function ContactForm({ data, closeModal }: { data: IContact | null, closeModal: VoidFunction }) {
+export default function ContactForm({ data, closeModal }: { data: IContact, closeModal: VoidFunction }) {
   const edititing = data ? true : false;
   const [name, setName] = useState<string>(data?.nome || '');
   const [telephone, setTelephone] = useState<string>(data?.telefone || '');
@@ -51,17 +51,18 @@ export default function ContactForm({ data, closeModal }: { data: IContact | nul
     if (!name || !telephone || !email) return
 
     const credentials = { nome: name, telefone: telephone, email };
-    const headers = apiAuthorizationHeaders(token);
 
     try {
+      const headers = apiAuthorizationHeaders(token);
       if (edititing) {
         await api.put(`/contatos/${data?.id}`, credentials, headers);
 
         const filteredContacts = contacts.filter((c: IContact) => c.id != data.id);
-        setContacts([...filteredContacts, { ...data, ...credentials }]);
+
+        const newContact: IContact = { ...data, ...credentials };
+        setContacts([...filteredContacts, newContact]);
 
         setMessage('Contato atualizado com sucesso!');
-        handleModalClose();
       } else {
         const { data } = await api.post('/contatos', credentials, headers);
 

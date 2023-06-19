@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react';
 import ContactCard from '../../components/ContactCard';
 import ContactForm from '../../components/ContactForm';
 import useUser from '../../hooks/useUser';
-import { IContact } from '../../interfaces';
 import { api, apiAuthorizationHeaders } from '../../services/api';
 export default function Home() {
     const { removeToken, token, user, setUser, contacts, setContacts } = useUser();
@@ -11,7 +10,7 @@ export default function Home() {
 
     const handleLogout = () => {
         removeToken();
-        setUser('');
+        setUser(null);
         setContacts([]);
     }
 
@@ -34,9 +33,6 @@ export default function Home() {
 
     useEffect(() => {
         getContatcs();
-        return () => {
-
-        }
     }, [])
 
 
@@ -54,7 +50,7 @@ export default function Home() {
                     <button className='add-contact-bt' onClick={handleOpenModal}>Adicionar contato</button>
                 </div>
                 <div className="contacts-display">
-                    {contacts?.length > 0 && contacts.map((contact: IContact) => (
+                    {contacts?.length > 0 && contacts.map((contact) => (
                         <ContactCard key={contact.id} contact={contact} />
                     ))}
                 </div>

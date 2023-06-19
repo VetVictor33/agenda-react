@@ -9,6 +9,16 @@ export interface IUser {
     setToken: () => void
 }
 
+export interface IUserContext {
+    setToken: (arg0: string) => void,
+    removeToken: () => void,
+    token: string,
+    user: IUser["user"],
+    setUser: (arg0: IUser["user"] | null) => void,
+    contacts: IContactArray,
+    setContacts: (arg0: Array<IContact>) => void
+}
+
 export interface IContact {
     id: number;
     usuario_id: number;
@@ -17,4 +27,4 @@ export interface IContact {
     telefone: string;
 }
 
-export interface IContactArray extends Array<IContact> { }
+export type IContactArray = Array<IContact>
